@@ -1,3 +1,8 @@
 /venv
 /.idea/
 *.py[co]
+.ipynb_checkpoints/
+.vscode/
+
+# Ignore .csv lock files
+.~*
