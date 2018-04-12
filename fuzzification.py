@@ -3,15 +3,15 @@ import pandas as pd
 
 
 warnings.filterwarnings('ignore')
-df = pd.read_csv('infy(97-98).csv')
+df = pd.read_csv('sample.csv')
 
 column_list = list(df.columns.values)
 rows = df.shape[0]
 
 header = ["Date", "Open Price", "High Price", "Low Price", "Close Price"]
-df.to_csv('output.csv', columns = header)
+df.to_csv('output_sample.csv', columns = header)
 
-df = pd.read_csv('output.csv')
+df = pd.read_csv('output_sample.csv')
 
 # From the above data, we get the following
 # 1. Upper Shadow
@@ -186,6 +186,7 @@ for i in range(rows-7):
         df['fm'][j] = "Extremely Bullish"
     elif df['Bias'][j] == "Negative" and fmag == 'VB':
         df['fm'][j] = "Extremely Bearish"
+
     if df['fm'][j] == "Bearish Neutral" or df['fm'][j] == "Extremely Bearish" or df['fm'][j] == 'Very Bearish':
         df['md'][j] = 'BR'
     elif df['fm'][j] == "Bullish Neutral" or df['fm'][j] == "Very Bullish" or df['fm'][j] == "Extremely Bullish":
@@ -193,5 +194,9 @@ for i in range(rows-7):
     else:
         df['md'][j] = 'NT'
 
+# Now to put the future trend, we need to shift the 'md' column 3 rows upward so that we get the future trend.
+df['future'] = df['md']
+df.future = df.future.shift(-3)
 
-df.to_csv('test.csv')
+
+df.to_csv('test_sample.csv')
