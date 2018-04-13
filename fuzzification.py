@@ -3,15 +3,15 @@ import pandas as pd
 
 
 warnings.filterwarnings('ignore')
-df = pd.read_csv('sample.csv')
+df = pd.read_csv('data/sample.csv')
 
 column_list = list(df.columns.values)
 rows = df.shape[0]
 
 header = ["Date", "Open Price", "High Price", "Low Price", "Close Price"]
-df.to_csv('output_sample.csv', columns = header)
+df.to_csv('output/output_sample.csv', columns = header)
 
-df = pd.read_csv('output_sample.csv')
+df = pd.read_csv('output/output_sample.csv', index_col=0)
 
 # From the above data, we get the following
 # 1. Upper Shadow
@@ -198,5 +198,5 @@ for i in range(rows-7):
 df['future'] = df['md']
 df.future = df.future.shift(-3)
 
-
-df.to_csv('test_sample.csv')
+    
+df.to_csv('output/test_sample.csv')
