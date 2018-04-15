@@ -1,20 +1,17 @@
-import pandas as pd
-import numpy as np
 import math
+import pandas as pd
+
+# TODO: Write documentation and do it DRY
 
 
 class TfIdf(object):
 
-    def __init__(self, fbull, fneut, fbear, term1, term2):
+    def __init__(self, fbull, fneut, fbear):
         self.bullish = fbull
         self.neutral = fneut
         self.bearish = fbear
-        self.term1 = term1
-        self.term2 = term2
-        self.docs = 3
 
     def get_file(self, cat):
-        # TODO: Write documentation
         if 'bull' in cat.lower():
             return self.bullish
         elif 'bear' in cat.lower():
@@ -22,11 +19,13 @@ class TfIdf(object):
         else:
             return self.neutral
 
-    def _read_csv(self, csv_file):
+    def _read_csv(self, doc):
+        csv_file = self.get_file(doc)
         df = pd.read_csv(csv_file)
         return df
 
-    def _read_text(self, csv_file):
+    def _read_text(self, doc):
+        csv_file = self.get_file(doc)
         text = open(csv_file, 'r')
         return text.read()
 
@@ -64,4 +63,36 @@ class TfIdf(object):
             return tneut / sum_denom
 
     def idf(self, term, doc):
-        
+        """
+        The IDF formula here considers that each observation or a date is a document.
+
+        :param term: The term to search
+        :param doc: The class of document: 'bull', 'bear' or 'neut'
+        :return: The IDF value of the term
+        """
+        text = self._read_text(doc)
+        count = text.count(term)
+        rows = self._read_csv(doc).shape[0]
+        return math.log10(rows/count)
+
+    def idf_square(self, term, doc):
+        idflog = self.idf(term, doc)
+        return idflog ** 2
+
+    def idf_norm(self, term, doc):
+        tbull = self.idf(term, 'bull')
+        tbear = self.idf(term, 'bear')
+        tneut = self.idf(term, 'neut')
+
+        tbull_sq = self.idf_square(term, 'bull')
+        tbear_sq = self.idf_square(term, 'bear')
+        tneut_sq = self.idf_square(term, 'neut')
+
+        sum_denom = math.sqrt(tbull_sq + tbear_sq + tneut_sq)
+
+        if 'bull' in doc:
+            return tbull / sum_denom
+        elif 'bear' in doc:
+            return tbear / sum_denom
+        else:
+            return tneut / sum_denom
