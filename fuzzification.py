@@ -22,9 +22,9 @@ class Fuzzify(object):
         """
         rows = self.df.shape[0]
         header = ["Date", "Open Price", "High Price", "Low Price", "Close Price"]
-        self.df.to_csv('output/output_sample.csv', columns=header)
+        self.df.to_csv('output/temp_sample.csv', columns=header)
 
-        self.df = pd.read_csv('output/output_sample.csv', index_col=0)
+        self.df = pd.read_csv('output/temp_sample.csv', index_col=0)
 
         # From the above data, we get the following
         # 1. Upper Shadow

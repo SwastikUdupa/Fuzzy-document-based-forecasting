@@ -55,6 +55,9 @@ class TfIdf(object):
 
         sum_denom = math.sqrt(tbull_sq + tbear_sq + tneut_sq)
 
+        if sum_denom == 0:
+            return 0
+
         if 'bull' in doc:
             return tbull / sum_denom
         elif 'bear' in doc:
@@ -73,6 +76,10 @@ class TfIdf(object):
         text = self._read_text(doc)
         count = text.count(term)
         rows = self._read_csv(doc).shape[0]
+
+        if count == 0:
+            return 0
+
         return math.log10(rows/count)
 
     def idf_square(self, term, doc):
@@ -90,9 +97,18 @@ class TfIdf(object):
 
         sum_denom = math.sqrt(tbull_sq + tbear_sq + tneut_sq)
 
+        if sum_denom == 0:
+            return 0
+
         if 'bull' in doc:
             return tbull / sum_denom
         elif 'bear' in doc:
             return tbear / sum_denom
         else:
             return tneut / sum_denom
+
+    def tfidf(self, term, doc):
+        tf = self.tf_norm(term, doc)
+        idf = self.idf_norm(term, doc)
+
+        return tf * idf

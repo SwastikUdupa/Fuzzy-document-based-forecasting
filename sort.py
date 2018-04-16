@@ -22,9 +22,9 @@ class Classify(object):
 
         # Before writing these to files, we need to remove the future value from the dataframe to avoid interference in
         # the scoring section.
-        br = br.drop(['future'])
-        nt = nt.drop(['future'])
-        bl = bl.drop(['future'])
+        br.drop(['future'], 1, inplace=True)
+        nt.drop(['future'], 1, inplace=True)
+        bl.drop(['future'], 1, inplace=True)
 
         # Now write them in separate csv files.
         br.to_csv(self.out + '/bearish_sample.csv', index=False)
