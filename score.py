@@ -40,18 +40,14 @@ class TfIdf(object):
         else:
             return 0
     
-    def tf_square(self, term, doc):
-        tlog = self.tf_log(term, doc)
-        return tlog ** 2
-    
     def tf_norm(self, term, doc):
         tbull = self.tf_log(term, 'bull')
         tbear = self.tf_log(term, 'bear')
         tneut = self.tf_log(term, 'neut')
 
-        tbull_sq = self.tf_square(term, 'bull')
-        tbear_sq = self.tf_square(term, 'bear')
-        tneut_sq = self.tf_square(term, 'neut')
+        tbull_sq = tbull ** 2
+        tbear_sq = tbear ** 2
+        tneut_sq = tneut ** 2
 
         sum_denom = math.sqrt(tbull_sq + tbear_sq + tneut_sq)
 
@@ -82,18 +78,14 @@ class TfIdf(object):
 
         return math.log10(rows/count)
 
-    def idf_square(self, term, doc):
-        idflog = self.idf(term, doc)
-        return idflog ** 2
-
     def idf_norm(self, term, doc):
         tbull = self.idf(term, 'bull')
         tbear = self.idf(term, 'bear')
         tneut = self.idf(term, 'neut')
 
-        tbull_sq = self.idf_square(term, 'bull')
-        tbear_sq = self.idf_square(term, 'bear')
-        tneut_sq = self.idf_square(term, 'neut')
+        tbull_sq = tbull ** 2
+        tbear_sq = tbear ** 2
+        tneut_sq = tneut ** 2
 
         sum_denom = math.sqrt(tbull_sq + tbear_sq + tneut_sq)
 
