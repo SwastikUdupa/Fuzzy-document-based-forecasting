@@ -81,9 +81,10 @@ class Fuzzify(object):
         self.df['fcs'] = ''
 
         for i in range(rows-7):
-            # 7 day moving average is the universe_disc. So skip the first 7 days.
-            j = i+7
-            self.df['universe_disc'][j] = (sum(list(self.df['Body'][i:j])))/7
+            # 7 day moving average is the universe_disc. So skip the first 3 days.
+            j = i + 3
+            k = j + 4
+            self.df['universe_disc'][j] = (sum(list(self.df['Body'][j:k])))/7
             a = 0.15 * self.df['universe_disc'][j]
             b = 0.30 * self.df['universe_disc'][j]
             c = 0.45 * self.df['universe_disc'][j]
